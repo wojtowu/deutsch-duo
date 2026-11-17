@@ -8,15 +8,14 @@
 <style>
 :root {
   --bg: #131f24;
-  --panel-bg: #1f2e35;
+  --panel-bg: #131f24;
   --border: #2c3e46;
   --text: #ffffff;
-  --muted: #7b8c96;
+  --muted: #52656d;
+  --muted-light: #7b8c96;
   --blue: #1cb0f6;
   --orange: #ff9600;
-  --active-bg: #393222;
-  --active-border: #b38206;
-  --active-text: #ffc233;
+  --gold: #ffc800;
 }
 * { box-sizing: border-box; }
 body {
@@ -38,7 +37,7 @@ body {
 .close-btn {
   background: none;
   border: none;
-  color: var(--muted);
+  color: var(--text);
   font-size: 24px;
   cursor: pointer;
   padding: 0;
@@ -47,27 +46,26 @@ body {
 .page-title {
   font-size: 18px;
   font-weight: 800;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
   text-align: center;
   flex: 1;
 }
 .tabs {
   display: flex;
   border-bottom: 2px solid var(--border);
-  padding: 0 20px;
 }
 .tab {
   flex: 1;
   text-align: center;
-  padding: 12px 0;
+  padding: 14px 0;
   font-size: 13px;
   font-weight: 800;
-  color: var(--muted);
+  color: var(--muted-light);
   background: none;
   border: none;
   cursor: pointer;
   position: relative;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.6px;
 }
 .tab.active {
   color: var(--blue);
@@ -78,12 +76,12 @@ body {
   bottom: -2px;
   left: 0;
   right: 0;
-  height: 4px;
+  height: 3px;
   background: var(--blue);
   border-radius: 2px;
 }
 main {
-  max-width: 500px;
+  max-width: 480px;
   margin: 0 auto;
   padding: 20px;
 }
@@ -91,23 +89,36 @@ main {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 10px 0 20px;
+  margin: 6px 0 22px;
+  padding: 0 4px;
 }
 .streak-info .big-num {
-  font-size: 56px;
+  font-size: 62px;
   font-weight: 900;
   line-height: 1;
   margin-bottom: 6px;
-  letter-spacing: -1px;
+  letter-spacing: -1.5px;
+  color: #ffffff;
+  text-shadow: 0 0 0 #37464f;
+}
+.streak-info .big-num.zero {
+  -webkit-text-stroke: 6px #37464f;
+  paint-order: stroke fill;
+}
+.streak-info .big-num.active-streak {
+  color: #ff9600;
 }
 .streak-info .sub-text {
-  font-size: 15px;
-  color: var(--muted);
-  font-weight: 700;
+  font-size: 17px;
+  color: var(--muted-light);
+  font-weight: 800;
+}
+.streak-info .sub-text.active-streak {
+  color: #ff9600;
 }
 .streak-icon-container {
-  width: 95px;
-  height: 95px;
+  width: 105px;
+  height: 105px;
   display: grid;
   place-items: center;
 }
@@ -115,25 +126,23 @@ main {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 .month-title {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 800;
   text-transform: lowercase;
 }
-.month-title::first-letter {
-  text-transform: uppercase;
-}
 .nav-arrows {
   display: flex;
-  gap: 10px;
+  gap: 18px;
 }
 .nav-btn {
   background: transparent;
   border: none;
-  color: var(--muted);
-  font-size: 22px;
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 800;
   cursor: pointer;
   display: grid;
   place-items: center;
@@ -143,131 +152,197 @@ main {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 .stat-box {
-  background: var(--panel-bg);
+  background: #131f24;
   border: 2px solid var(--border);
   border-radius: 16px;
-  padding: 14px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.stat-icon {
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.stat-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.stat-box-val {
+  font-size: 20px;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.2;
+}
+.stat-box-label {
+  font-size: 13px;
+  color: var(--muted-light);
+  font-weight: 600;
+}
+
+/* Kalendarz Duolingo 1:1 */
+.calendar-panel {
+  background: #131f24;
+  border: 2px solid var(--border);
+  border-radius: 20px;
+  padding: 18px 12px 20px;
+  margin-bottom: 24px;
+}
+.weekdays-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 12px;
+}
+.weekday {
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted-light);
+  font-weight: 800;
+}
+.calendar-weeks {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
-.stat-box-head {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
-  color: var(--muted);
-  font-weight: 700;
-}
-.stat-icon {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  font-size: 12px;
-  flex-shrink: 0;
-}
-.stat-icon.orange {
-  background: #ff9600;
-  color: #131f24;
-}
-.stat-icon.blue {
-  background: #1cb0f6;
-  color: #131f24;
-}
-.stat-box-val {
-  font-size: 24px;
-  font-weight: 900;
-}
-.calendar-panel {
-  background: var(--panel-bg);
-  border: 2px solid var(--border);
-  border-radius: 20px;
-  padding: 20px;
-  margin-bottom: 24px;
-}
-.calendar {
+.cal-week {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 8px;
+  height: 44px;
+  align-items: center;
 }
-.weekday {
-  text-align: center;
-  font-size: 12px;
-  color: var(--muted);
-  padding-bottom: 8px;
-  font-weight: 700;
+/* Tła ciągłości serii / zamrożeń (pill bars) */
+.streak-bar {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  border-radius: 22px;
+  pointer-events: none;
+  z-index: 1;
 }
-.day {
-  background: transparent;
-  border: 2px solid transparent;
-  color: var(--muted);
-  border-radius: 12px;
-  aspect-ratio: 1;
+/* Zwykła ciągła seria (ciemno-oliwkowo-złoty pasek) */
+.streak-bar.normal {
+  background: #2f2c1b;
+}
+/* Idealny tydzień (7 dni nauki bez zamrożeń - pomarańczowo-koralowy gradient ze złotą obwódką) */
+.streak-bar.perfect {
+  background: linear-gradient(180deg, #ff7058 0%, #ffaa1d 100%);
+  border: 3px solid #695e1a;
+  box-shadow: inset 0 2px 0 rgba(255,255,255,0.25);
+}
+.sparkle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.day-cell {
+  position: relative;
+  z-index: 2;
+  height: 44px;
   display: grid;
   place-items: center;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: 0.1s;
 }
-.day.active {
-  background: #393222;
-  border-color: #b38206;
-  color: #ffc233;
-}
-.day.today {
-  border-color: #7b8c96;
-}
-.day.empty {
-  background: transparent;
+.day-btn {
+  width: 38px;
+  height: 38px;
   border: none;
-  cursor: default;
+  background: transparent;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 800;
+  font-family: inherit;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  padding: 0;
+  position: relative;
+  user-select: none;
 }
+/* Dzisiaj (bez aktywności - tylko subtelne kółko) */
+.day-btn.today-inactive {
+  background: #2b3940;
+  color: #ffffff;
+}
+/* Dzień nauki (aktywny w serii) */
+.day-btn.study {
+  color: #ffc800;
+}
+/* Dzień nauki wewnątrz Perfect Week */
+.day-btn.study.in-perfect {
+  color: #2b1d04;
+}
+/* Dzień zamrożony (niebieska kropla/tarcza Duolingo) */
+.day-btn.freeze {
+  color: #131f24;
+  font-weight: 900;
+}
+.freeze-drop-svg {
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 45px;
+  z-index: -1;
+  pointer-events: none;
+}
+
 .club-section-title {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 800;
   margin-bottom: 12px;
 }
 .club-card {
-  background: var(--panel-bg);
+  background: #131f24;
   border: 2px solid var(--border);
   border-radius: 16px;
   padding: 20px;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 18px;
   margin-bottom: 24px;
 }
 .lock-icon {
-  font-size: 32px;
-  background: #253740;
-  width: 56px;
-  height: 56px;
-  border-radius: 14px;
+  width: 54px;
+  height: 54px;
   display: grid;
   place-items: center;
   flex-shrink: 0;
 }
 .club-text {
-  font-size: 13px;
-  color: var(--muted);
-  line-height: 1.4;
-  font-weight: 700;
+  font-size: 14px;
+  color: var(--muted-light);
+  line-height: 1.45;
+  font-weight: 600;
 }
 .edit-panel {
-  background: var(--panel-bg);
+  background: #1a282f;
   border: 2px solid var(--border);
   border-radius: 16px;
   padding: 16px;
 }
 .edit-panel h3 {
   font-size: 15px;
-  margin: 0 0 12px 0;
+  margin: 0 0 6px 0;
+}
+.edit-hint {
+  font-size: 12px;
+  color: var(--muted-light);
+  margin: 0 0 14px 0;
+  font-weight: 600;
+  line-height: 1.4;
 }
 .edit-row {
   display: flex;
@@ -275,12 +350,12 @@ main {
   align-items: center;
   margin-bottom: 10px;
   font-size: 13px;
-  color: var(--muted);
+  color: var(--muted-light);
 }
 .edit-row input {
   width: 90px;
   padding: 6px 10px;
-  background: #253740;
+  background: #131f24;
   border: 2px solid var(--border);
   border-radius: 8px;
   color: var(--text);
@@ -295,19 +370,19 @@ main {
 .save-btn {
   width: 100%;
   background: var(--blue);
-  color: white;
+  color: #131f24;
   border: none;
   border-radius: 12px;
   padding: 12px;
   font-weight: 800;
   font-size: 14px;
   cursor: pointer;
-  margin-top: 10px;
-  box-shadow: 0 4px #0d8bc3;
+  margin-top: 8px;
+  box-shadow: 0 4px #1899d6;
 }
 .save-btn:active {
   transform: translateY(2px);
-  box-shadow: 0 2px #0d8bc3;
+  box-shadow: 0 2px #1899d6;
 }
 .toast {
   position: fixed;
@@ -323,6 +398,7 @@ main {
   transition: 0.2s;
   pointer-events: none;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  z-index: 100;
 }
 .toast.show { opacity: 1; }
 </style>
@@ -342,8 +418,8 @@ main {
 <main>
   <div class="streak-hero">
     <div class="streak-info">
-      <div class="big-num" id="streak">0</div>
-      <div class="sub-text">dni serii!</div>
+      <div class="big-num zero" id="streak">0</div>
+      <div class="sub-text" id="streakSub">dni serii!</div>
     </div>
     <div class="streak-icon-container" id="streakIconContainer"></div>
   </div>
@@ -358,47 +434,70 @@ main {
 
   <div class="stats-row">
     <div class="stat-box">
-      <div class="stat-box-head">
-        <div class="stat-icon orange">
-          <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="#131f24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        Dni nauki
+      <div class="stat-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="11" fill="#ffc800"/>
+          <path d="M7.5 12.2L10.5 15.2L16.8 9" stroke="#131f24" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </div>
-      <div class="stat-box-val" id="lessons">0</div>
+      <div class="stat-content">
+        <div class="stat-box-val" id="lessons">0</div>
+        <div class="stat-box-label">Dni nauki</div>
+      </div>
     </div>
     <div class="stat-box">
-      <div class="stat-box-head">
-        <div class="stat-icon blue">
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C3.5 1 2 3 2 5C2 7.5 6 11 6 11C6 11 10 7.5 10 5C10 3 8.5 1 6 1Z" fill="#131f24"/></svg>
-        </div>
-        Użyte Zamrożenia
+      <div class="stat-icon">
+        <svg width="24" height="26" viewBox="0 0 24 26" fill="none">
+          <path d="M12 1C6.2 1 2 5.4 2 11C2 14.5 3.8 17.6 5.5 21.8C6.1 23.3 7.6 23.5 8.5 22.2C9.5 20.8 10.6 20.2 12 20.2C13.4 20.2 14.5 20.8 15.5 22.2C16.4 23.5 17.9 23.3 18.5 21.8C20.2 17.6 22 14.5 22 11C22 5.4 17.8 1 12 1Z" fill="#5ce1ff"/>
+          <path d="M12 3C7.5 3 4 6.5 4 11C4 13.8 5.2 16.2 6.6 19.3C11.5 16.5 16.5 11.5 19.2 6.8C17.5 4.4 14.9 3 12 3Z" fill="#a2f0ff" opacity="0.6"/>
+        </svg>
       </div>
-      <div class="stat-box-val" id="freezes">0</div>
+      <div class="stat-content">
+        <div class="stat-box-val" id="freezes">0</div>
+        <div class="stat-box-label">Użyte Zamrożenia</div>
+      </div>
     </div>
   </div>
 
   <div class="calendar-panel">
-    <div class="calendar" id="calendar"></div>
+    <div class="weekdays-row">
+      <div class="weekday">Pn</div>
+      <div class="weekday">Wt</div>
+      <div class="weekday">Śr</div>
+      <div class="weekday">Cz</div>
+      <div class="weekday">Pt</div>
+      <div class="weekday">So</div>
+      <div class="weekday">Nd</div>
+    </div>
+    <div class="calendar-weeks" id="calendarWeeks"></div>
   </div>
 
   <div class="club-section-title">Klub Płomienia Nauki</div>
   <div class="club-card">
-    <div class="lock-icon">🔒</div>
+    <div class="lock-icon">
+      <svg width="46" height="52" viewBox="0 0 46 52" fill="none">
+        <path d="M13 22V14C13 8.47715 17.4772 4 23 4C28.5228 4 33 8.47715 33 14V22" stroke="#52656d" stroke-width="6" stroke-linecap="round"/>
+        <rect x="6" y="20" width="34" height="28" rx="8" fill="#52656d"/>
+        <circle cx="23" cy="31" r="3.5" fill="#131f24"/>
+        <path d="M23 32L21 40H25L23 32Z" fill="#131f24"/>
+      </svg>
+    </div>
     <div class="club-text">Osiągnij 7-dniową serię, aby dołączyć do Klubu Płomienia Nauki i zdobyć wyjątkowe nagrody.</div>
   </div>
 
   <div class="edit-panel">
     <h3>Edytuj statystyki</h3>
+    <p class="edit-hint">💡 <b>1 kliknięcie</b> w dzień = Dzień nauki (złoty)<br>❄️ <b>2 kliknięcia (lub podwójne kliknięcie)</b> = Zamrożenie (niebieskie)<br>✖️ <b>3 kliknięcie</b> = Wyczyść dzień</p>
     <div class="edit-row">
       <span>🔥 Dni serii</span>
       <input id="streakInput" type="number" min="0" max="99999">
     </div>
     <div class="edit-row">
-      <span>⭐ Dni nauki</span>
+      <span>🟡 Dni nauki</span>
       <input id="lessonsInput" type="number" min="0" max="99999">
     </div>
     <div class="edit-row">
-      <span>❄️ Zamrożenia</span>
+      <span>❄️ Użyte Zamrożenia</span>
       <input id="freezesInput" type="number" min="0" max="99999">
     </div>
     <button class="save-btn" id="save">Zapisz zmiany</button>
@@ -411,12 +510,17 @@ main {
 const $ = id => document.getElementById(id),
       now = new Date(),
       pad = n => String(n).padStart(2,'0'),
-      current = `${now.getFullYear()}-${pad(now.getMonth()+1)}`;
+      current = `${now.getFullYear()}-${pad(now.getMonth()+1)}`,
+      todayKey = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;
 
 const defaults = { streak: 0, lessons: 0, freezes: 0, month: current, days: {} };
 let data;
 try {
   data = { ...defaults, ...JSON.parse(localStorage.getItem('deutschDuo') || '{}') };
+  // Migracja starych wartości boolean true -> 'study'
+  for (let k in data.days) {
+    if (data.days[k] === true) data.days[k] = 'study';
+  }
 } catch(e) {
   data = { ...defaults };
 }
@@ -436,9 +540,53 @@ function label(k) {
   return dateOf(k).toLocaleDateString('pl-PL', { month: 'long', year: 'numeric' });
 }
 
+function renderFlame(isActive) {
+  if (isActive) {
+    return `
+    <svg width="96" height="106" viewBox="0 0 96 106" fill="none">
+      <!-- Mała iskierka u góry po lewej jak na screenie -->
+      <circle cx="29" cy="11" r="4.5" fill="#ff9600" opacity="0.75"/>
+      <!-- Cień podstawy -->
+      <ellipse cx="48" cy="96" rx="22" ry="6" fill="#4f4818"/>
+      <!-- Główny płomień Duolingo z lewym językiem ognia -->
+      <path d="M48 16C48 16 39 27 32 37C27 31 20 27 17 31C14 35 16 47 16 58C16 78 30 93 48 93C66 93 80 78 80 58C80 39 60 22 48 16Z" fill="#ff9600"/>
+      <!-- Wewnętrzna kropla -->
+      <path d="M48 48C48 48 35 61 35 71C35 79 41 85 48 85C55 85 61 79 61 71C61 61 48 48 48 48Z" fill="#ffc800"/>
+    </svg>`;
+  } else {
+    return `
+    <svg width="96" height="106" viewBox="0 0 96 106" fill="none">
+      <!-- Nieaktywny szary płomień 1:1 ze screena -->
+      <path d="M48 16C48 16 39 27 32 37C27 31 20 27 17 31C14 35 16 47 16 58C16 78 30 93 48 93C66 93 80 78 80 58C80 39 60 22 48 16Z" fill="#37464f"/>
+      <path d="M48 48C48 48 35 61 35 71C35 79 41 85 48 85C55 85 61 79 61 71C61 61 48 48 48 48Z" fill="#4b5d67"/>
+    </svg>`;
+  }
+}
+
+function renderFreezeDrop() {
+  return `
+  <svg class="freeze-drop-svg" viewBox="0 0 40 45" fill="none">
+    <path d="M20 1C10.2 1 3 8.4 3 18C3 24 6 29.2 8.8 36.4C9.8 38.9 12.4 39.2 13.9 37C15.6 34.6 17.5 33.6 20 33.6C22.5 33.6 24.4 34.6 26.1 37C27.6 39.2 30.2 38.9 31.2 36.4C34 29.2 37 24 37 18C37 8.4 29.8 1 20 1Z" fill="#5ce1ff"/>
+    <path d="M20 4C12.2 4 6.5 10 6.5 18C6.5 22.8 8.6 27 11 32.2C19.2 27.4 27.6 19 32.2 11C29.4 6.8 25 4 20 4Z" fill="#a5f2ff" opacity="0.65"/>
+  </svg>`;
+}
+
 function render() {
   let streakVal = +data.streak || 0;
-  $('streak').textContent = streakVal;
+  const streakEl = $('streak');
+  const subEl = $('streakSub');
+  
+  streakEl.textContent = streakVal;
+  if (streakVal > 0) {
+    streakEl.classList.remove('zero');
+    streakEl.classList.add('active-streak');
+    subEl.classList.add('active-streak');
+  } else {
+    streakEl.classList.add('zero');
+    streakEl.classList.remove('active-streak');
+    subEl.classList.remove('active-streak');
+  }
+
   $('lessons').textContent = +data.lessons || 0;
   $('freezes').textContent = +data.freezes || 0;
   
@@ -446,54 +594,116 @@ function render() {
   $('lessonsInput').value = data.lessons;
   $('freezesInput').value = data.freezes;
   $('monthTitle').textContent = label(shown);
-
-  const container = $('streakIconContainer');
-  if (streakVal > 0) {
-    container.innerHTML = `<svg width="84" height="92" viewBox="0 0 84 92" fill="none"><path d="M42 2C42 2 20 28 20 54C20 70 30 82 42 82C54 82 64 70 64 54C64 28 42 2 42 2Z" fill="#FF9600"/><path d="M42 34C42 34 32 50 32 60C32 68 37 73 42 73C47 73 52 68 52 60C52 50 42 34 42 34Z" fill="#FFC233"/><ellipse cx="42" cy="87" rx="18" ry="4" fill="#FF9600" opacity="0.4"/></svg>`;
-  } else {
-    container.innerHTML = `<svg width="84" height="92" viewBox="0 0 84 92" fill="none"><path d="M42 2C42 2 20 28 20 54C20 70 30 82 42 82C54 82 64 70 64 54C64 28 42 2 42 2Z" fill="#253740"/><path d="M42 34C42 34 32 50 32 60C32 68 37 73 42 73C47 73 52 68 52 60C52 50 42 34 42 34Z" fill="#1b282e"/><ellipse cx="42" cy="87" rx="18" ry="4" fill="#253740" opacity="0.3"/></svg>`;
-  }
+  $('streakIconContainer').innerHTML = renderFlame(streakVal > 0);
 
   let d = dateOf(shown),
       y = d.getFullYear(),
       m = d.getMonth(),
       offset = (d.getDay() + 6) % 7,
       total = new Date(y, m + 1, 0).getDate(),
-      cal = $('calendar');
+      weeksContainer = $('calendarWeeks');
   
-  cal.innerHTML = '';
-  ['Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So', 'Nd'].forEach(x => {
-    let e = document.createElement('div');
-    e.className = 'weekday';
-    e.textContent = x;
-    cal.append(e);
-  });
+  weeksContainer.innerHTML = '';
 
-  for (let i = 0; i < offset; i++) {
-    let e = document.createElement('div');
-    e.className = 'day empty';
-    cal.append(e);
-  }
+  // Budujemy macierz tygodni (po 7 kolumn: 0=Pn ... 6=Nd)
+  let cells = [];
+  for (let i = 0; i < offset; i++) cells.push(null);
+  for (let n = 1; n <= total; n++) cells.push(n);
+  while (cells.length % 7 !== 0) cells.push(null);
 
-  for (let n = 1; n <= total; n++) {
-    let k = shown + '-' + pad(n),
-        e = document.createElement('button');
-    e.type = 'button';
-    e.className = 'day';
-    e.textContent = n;
-    
-    if (data.days[k]) e.classList.add('active');
-    if (k === `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`) {
-      e.classList.add('today');
-    }
-    
-    e.addEventListener('click', () => {
-      data.days[k] = !data.days[k];
-      if (!data.days[k]) delete data.days[k];
-      store();
-      render();
+  for (let w = 0; w < cells.length; w += 7) {
+    const weekSlice = cells.slice(w, w + 7);
+    const weekRow = document.createElement('div');
+    weekRow.className = 'cal-week';
+
+    // Sprawdzamy czy cały tydzień (7 dni) jest 'study' -> Perfect Week!
+    const isPerfectWeek = weekSlice.every(dayNum => {
+      if (!dayNum) return false;
+      const k = shown + '-' + pad(dayNum);
+      return data.days[k] === 'study';
     });
-    cal.append(e);
+
+    if (isPerfectWeek) {
+      const bar = document.createElement('div');
+      bar.className = 'streak-bar perfect';
+      bar.style.left = '2px';
+      bar.style.right = '2px';
+      weekRow.appendChild(bar);
+
+      // Dodaj małą białą gwiazdkę (sparkle) jak na screenach Duolingo
+      const sp = document.createElement('div');
+      sp.className = 'sparkle';
+      sp.style.left = ((w / 7) % 2 === 0 ? '41%' : '83%');
+      sp.style.top = ((w / 7) % 2 === 0 ? '6px' : '28px');
+      sp.innerHTML = `<svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M6 0L7.5 4.5L12 6L7.5 7.5L6 12L4.5 7.5L0 6L4.5 4.5L6 0Z" fill="#ffffff"/></svg>`;
+      weekRow.appendChild(sp);
+    } else {
+      // Szukamy ciągłych bloków dni aktywnych (study lub freeze) w danym tygodniu
+      let runStart = null;
+      for (let col = 0; col <= 7; col++) {
+        const dayNum = col < 7 ? weekSlice[col] : null;
+        const k = dayNum ? (shown + '-' + pad(dayNum)) : null;
+        const state = k ? data.days[k] : null;
+        const isActive = (state === 'study' || state === 'freeze');
+
+        if (isActive && runStart === null) {
+          runStart = col;
+        } else if (!isActive && runStart !== null) {
+          const runEnd = col - 1;
+          const bar = document.createElement('div');
+          bar.className = 'streak-bar normal';
+          const colWidth = 100 / 7;
+          bar.style.left = `calc(${runStart * colWidth}% + 3px)`;
+          bar.style.width = `calc(${(runEnd - runStart + 1) * colWidth}% - 6px)`;
+          weekRow.appendChild(bar);
+          runStart = null;
+        }
+      }
+    }
+
+    // Renderowanie 7 komórek dnia w tygodniu
+    weekSlice.forEach((dayNum, colIdx) => {
+      const cell = document.createElement('div');
+      cell.className = 'day-cell';
+
+      if (dayNum !== null) {
+        const k = shown + '-' + pad(dayNum);
+        const state = data.days[k]; // 'study', 'freeze' lub undefined
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'day-btn';
+        btn.textContent = dayNum;
+
+        if (state === 'study') {
+          btn.classList.add('study');
+          if (isPerfectWeek) btn.classList.add('in-perfect');
+        } else if (state === 'freeze') {
+          btn.classList.add('freeze');
+          btn.innerHTML = `${dayNum}${renderFreezeDrop()}`;
+        } else if (k === todayKey) {
+          btn.classList.add('today-inactive');
+        }
+
+        // Kliknięcie: brak -> study -> freeze -> brak
+        btn.addEventListener('click', () => {
+          const cur = data.days[k];
+          if (!cur) {
+            data.days[k] = 'study';
+          } else if (cur === 'study') {
+            data.days[k] = 'freeze';
+          } else {
+            delete data.days[k];
+          }
+          store();
+          render();
+        });
+
+        cell.appendChild(btn);
+      }
+      weekRow.appendChild(cell);
+    });
+
+    weeksContainer.appendChild(weekRow);
   }
 }
 
