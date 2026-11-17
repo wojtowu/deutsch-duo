@@ -111,10 +111,6 @@ main {
   display: grid;
   place-items: center;
 }
-.streak-svg {
-  width: 80px;
-  height: 80px;
-}
 .month-nav-container {
   display: flex;
   align-items: center;
@@ -164,9 +160,27 @@ main {
   gap: 8px;
   font-size: 12px;
   color: var(--muted);
+  font-weight: 700;
+}
+.stat-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.stat-icon.orange {
+  background: #ff9600;
+  color: #131f24;
+}
+.stat-icon.blue {
+  background: #1cb0f6;
+  color: #131f24;
 }
 .stat-box-val {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 900;
 }
 .calendar-panel {
@@ -331,9 +345,7 @@ main {
       <div class="big-num" id="streak">0</div>
       <div class="sub-text">dni serii!</div>
     </div>
-    <div class="streak-icon-container" id="streakIconContainer">
-      <!-- Płomień wstawiany dynamicznie w JS w zależności od liczby serii -->
-    </div>
+    <div class="streak-icon-container" id="streakIconContainer"></div>
   </div>
 
   <div class="month-nav-container">
@@ -346,11 +358,21 @@ main {
 
   <div class="stats-row">
     <div class="stat-box">
-      <div class="stat-box-head"><span>🟠</span> Dni nauki</div>
+      <div class="stat-box-head">
+        <div class="stat-icon orange">
+          <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5L4.5 8.5L11 1.5" stroke="#131f24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        Dni nauki
+      </div>
       <div class="stat-box-val" id="lessons">0</div>
     </div>
     <div class="stat-box">
-      <div class="stat-box-head"><span>💬</span> Użyte Zamrożenia</div>
+      <div class="stat-box-head">
+        <div class="stat-icon blue">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1C3.5 1 2 3 2 5C2 7.5 6 11 6 11C6 11 10 7.5 10 5C10 3 8.5 1 6 1Z" fill="#131f24"/></svg>
+        </div>
+        Użyte Zamrożenia
+      </div>
       <div class="stat-box-val" id="freezes">0</div>
     </div>
   </div>
@@ -425,12 +447,11 @@ function render() {
   $('freezesInput').value = data.freezes;
   $('monthTitle').textContent = label(shown);
 
-  // Płomień: aktywny (pomarańczowy) gdy streak > 0, szary (nieaktywny) gdy 0
   const container = $('streakIconContainer');
   if (streakVal > 0) {
-    container.innerHTML = `<svg class="streak-svg" viewBox="0 0 100 100" fill="none"><path d="M50 8C50 8 32 30 32 50C32 62 40 72 50 72C60 72 68 62 68 50C68 30 50 8 50 8Z" fill="#ff9600"/><path d="M50 42C50 42 43 53 43 60C43 64 46 67 50 67C54 67 57 64 57 60C57 53 50 42 50 42Z" fill="#ffc233"/><ellipse cx="50" cy="85" rx="20" ry="6" fill="#ff9600" opacity="0.4"/></svg>`;
+    container.innerHTML = `<svg width="84" height="92" viewBox="0 0 84 92" fill="none"><path d="M42 2C42 2 20 28 20 54C20 70 30 82 42 82C54 82 64 70 64 54C64 28 42 2 42 2Z" fill="#FF9600"/><path d="M42 34C42 34 32 50 32 60C32 68 37 73 42 73C47 73 52 68 52 60C52 50 42 34 42 34Z" fill="#FFC233"/><ellipse cx="42" cy="87" rx="18" ry="4" fill="#FF9600" opacity="0.4"/></svg>`;
   } else {
-    container.innerHTML = `<svg class="streak-svg" viewBox="0 0 100 100" fill="none"><path d="M50 8C50 8 32 30 32 50C32 62 40 72 50 72C60 72 68 62 68 50C68 30 50 8 50 8Z" fill="#253740"/><path d="M50 42C50 42 43 53 43 60C43 64 46 67 50 67C54 67 57 64 57 60C57 53 50 42 50 42Z" fill="#1f2e35"/><ellipse cx="50" cy="85" rx="20" ry="6" fill="#253740" opacity="0.3"/></svg>`;
+    container.innerHTML = `<svg width="84" height="92" viewBox="0 0 84 92" fill="none"><path d="M42 2C42 2 20 28 20 54C20 70 30 82 42 82C54 82 64 70 64 54C64 28 42 2 42 2Z" fill="#253740"/><path d="M42 34C42 34 32 50 32 60C32 68 37 73 42 73C47 73 52 68 52 60C52 50 42 34 42 34Z" fill="#1b282e"/><ellipse cx="42" cy="87" rx="18" ry="4" fill="#253740" opacity="0.3"/></svg>`;
   }
 
   let d = dateOf(shown),
@@ -485,7 +506,7 @@ function toast() {
 $('save').onclick = () => {
   data.streak = Math.max(0, +$('streakInput').value || 0);
   data.lessons = Math.max(0, +$('lessonsInput').value || 0);
-  data.freezes = Math.max(0, +$('frozenInput').value || +$('freezesInput').value || 0);
+  data.freezes = Math.max(0, +$('freezesInput').value || 0);
   store();
   render();
   toast();
