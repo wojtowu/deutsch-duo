@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#58cc02"><title>Deutsch — Lernfortschritt</title>
+<style>
+:root{--g:#58cc02;--gd:#46a302;--ink:#3c3c3c;--muted:#999;--line:#e5e5e5;--pale:#f6f6f6}
+*{box-sizing:border-box}body{margin:0;background:#fff;color:var(--ink);font-family:Nunito,"Arial Rounded MT Bold",system-ui,-apple-system,sans-serif;font-weight:750}
+.top{height:62px;border-bottom:2px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 max(18px,calc((100vw - 900px)/2));position:sticky;top:0;background:white}
+.brand{display:flex;align-items:center;gap:10px;color:var(--gd);font-size:21px}.owl{width:34px;height:34px;background:var(--g);border-radius:12px;display:grid;place-items:center;font-size:21px;box-shadow:0 3px var(--gd)}.tag{font-size:12px;color:#999;letter-spacing:.7px}
+main{max-width:900px;margin:auto;padding:28px 20px 60px}h1{font-size:27px;margin:0 0 20px;letter-spacing:-.6px}.course{display:flex;align-items:center;gap:9px;color:#777;font-size:13px;margin:-8px 0 20px}.flag{font-size:22px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:18px}.stat,.panel{border:2px solid var(--line);border-radius:16px;padding:17px}.stat{min-height:110px;display:flex;flex-direction:column;justify-content:space-between}.head{font-size:12px;color:#777;display:flex;align-items:center;gap:7px}.ico{font-size:20px}.value{font-size:32px;line-height:1}.sub{font-size:11px;color:#aaa;margin-top:6px}
+.panel h2{font-size:16px;margin:0 0 16px;display:flex;align-items:center;justify-content:space-between}.nav{display:flex;align-items:center;gap:9px}.nav button{border:0;background:#f1f1f1;color:#777;border-radius:8px;width:29px;height:29px;font-size:18px}.month{font-size:13px;min-width:115px;text-align:center}
+.layout{display:grid;grid-template-columns:1.3fr .9fr;gap:15px}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.weekday{text-align:center;font-size:10px;color:#aaa;padding:0 0 6px}.day{border:2px solid transparent;background:#f4f4f4;color:#aaa;border-radius:9px;aspect-ratio:1;display:grid;place-items:center;font-size:12px;font-weight:750;padding:0}.day.active{background:#d9f7bd;border-color:#b6eb88;color:#398900}.day.today{border-color:var(--g)}.day.empty{background:transparent}
+.hint{font-size:11px;color:#aaa;line-height:1.5;margin:12px 0 0;font-weight:600}.side{display:grid;gap:14px}.edit{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid #eee;font-size:12px;color:#777}.edit:last-of-type{border:0}.edit input{width:90px;padding:8px;border:2px solid var(--line);border-radius:9px;text-align:center;color:var(--ink);font:inherit;outline:0}.edit input:focus{border-color:var(--g)}.save{width:100%;margin-top:13px;border:0;border-radius:11px;background:var(--g);color:white;padding:12px;box-shadow:0 4px var(--gd);font-weight:800}.save:active{transform:translateY(2px);box-shadow:0 2px var(--gd)}.reset{border:2px solid var(--line);background:#fff;color:#777;border-radius:9px;padding:8px 10px;font-size:11px}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#333;color:white;border-radius:10px;padding:10px 15px;font-size:12px;opacity:0;transition:.2s}.toast.show{opacity:1}
+@media(max-width:650px){.top{padding:0 15px}.tag{font-size:10px}main{padding:23px 14px 45px}h1{font-size:23px}.layout{grid-template-columns:1fr}.stats{gap:8px}.stat{padding:13px;min-height:100px}.value{font-size:29px}.panel{padding:15px}.day{font-size:11px}.side{grid-template-columns:1fr 1fr}.edit{display:block}.edit input{width:100%;margin-top:7px}.save{font-size:12px;padding:10px 5px}}
+@media(max-width:370px){.side{grid-template-columns:1fr}}
+</style></head>
+<body>
+<header class="top"><div class="brand"><span class="owl">🦉</span><span>deutsch duo</span></div><div class="tag">MEIN LERNFORTSCHRITT</div></header>
+<main>
+<h1>Mein Lernfortschritt</h1>
+<div class="course"><span class="flag">🇩🇪</span><span>Deutsch</span></div>
+<section class="stats">
+<div class="stat"><div class="head"><span class="ico">🔥</span> AKTUELLE SERIE</div><div><div class="value" id="streak">0 Tage</div><div class="sub">Weiter so! Bleib dran.</div></div></div>
+<div class="stat"><div class="head"><span class="ico">⭐</span> LEKTIONEN DIESEN MONAT</div><div><div class="value" id="lessons">0</div><div class="sub" id="monthCaption"></div></div></div>
+</section>
+<section class="layout">
+<div class="panel"><h2><span>Aktivität</span><div class="nav"><button id="prev" aria-label="Vorheriger Monat">‹</button><span class="month" id="monthTitle"></span><button id="next" aria-label="Nächster Monat">›</button></div></h2>
+<div class="calendar" id="calendar"></div><p class="hint">Tippe auf einen Tag, um deine Lernaktivität zu markieren oder zu entfernen.</p></div>
+<div class="side">
+<div class="panel"><h2>Statistiken bearbeiten</h2>
+<label class="edit">🔥 Serienlänge (Tage)<input id="streakInput" type="number" min="0" max="99999"></label>
+<label class="edit">⭐ Lektionen diesen Monat<input id="lessonsInput" type="number" min="0" max="99999"></label>
+<button class="save" id="save">Änderungen speichern</button></div>
+<div class="panel"><h2>Einstellungen</h2><label class="edit">Angezeigter Monat<input id="monthInput" type="month"></label><button class="reset" id="reset">Beispieldaten zurücksetzen</button><p class="hint">Deine Angaben werden lokal in diesem Browser gespeichert. Keine Verbindung zu einem Duolingo-Konto.</p></div>
+</div></section></main><div class="toast" id="toast">Gespeichert!</div>
+<script>
+const $=id=>document.getElementById(id),now=new Date(),pad=n=>String(n).padStart(2,'0'),current=`${now.getFullYear()}-${pad(now.getMonth()+1)}`;
+const defaults={streak:127,lessons:34,month:current,days:{}};
+let data;try{data={...defaults,...JSON.parse(localStorage.getItem('deutschDuo')||'{}')};}catch(e){data={...defaults}}let shown=data.month||current;
+function store(){localStorage.setItem('deutschDuo',JSON.stringify(data))}
+function dateOf(k){let [y,m]=k.split('-').map(Number);return new Date(y,m-1,1)}
+function label(k){return dateOf(k).toLocaleDateString('de-DE',{month:'long',year:'numeric'})}
+function render(){
+$('streak').textContent=(+data.streak||0)+' Tage';$('lessons').textContent=+data.lessons||0;$('monthCaption').textContent=label(current);
+$('streakInput').value=data.streak;$('lessonsInput').value=data.lessons;$('monthInput').value=data.month||current;$('monthTitle').textContent=label(shown);
+let d=dateOf(shown),y=d.getFullYear(),m=d.getMonth(),offset=(d.getDay()+6)%7,total=new Date(y,m+1,0).getDate(),cal=$('calendar');cal.innerHTML='';
+['Mo','Di','Mi','Do','Fr','Sa','So'].forEach(x=>{let e=document.createElement('div');e.className='weekday';e.textContent=x;cal.append(e)});
+for(let i=0;i<offset;i++){let e=document.createElement('div');e.className='day empty';cal.append(e)}
+for(let n=1;n<=total;n++){let k=shown+'-'+pad(n),e=document.createElement('button');e.type='button';e.className='day';e.textContent=n;if(data.days[k])e.classList.add('active');if(k===current+'-'+pad(now.getDate()))e.classList.add('today');e.addEventListener('click',()=>{data.days[k]=!data.days[k];if(!data.days[k])delete data.days[k];store();render()});cal.append(e)}
+}
+function toast(){let t=$('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1400)}
+$('save').onclick=()=>{data.streak=Math.max(0,+$('streakInput').value||0);data.lessons=Math.max(0,+$('lessonsInput').value||0);store();render();toast()};
+$('prev').onclick=()=>{let d=dateOf(shown);d.setMonth(d.getMonth()-1);shown=d.getFullYear()+'-'+pad(d.getMonth()+1);render()};
+$('next').onclick=()=>{let d=dateOf(shown);d.setMonth(d.getMonth()+1);shown=d.getFullYear()+'-'+pad(d.getMonth()+1);render()};
+$('monthInput').onchange=e=>{if(e.target.value){data.month=e.target.value;shown=e.target.value;store();render();toast()}};
+$('reset').onclick=()=>{if(confirm('Beispieldaten wiederherstellen?')){data={...defaults,days:{}};shown=current;store();render();toast()}};render();
+</script></body></html>
