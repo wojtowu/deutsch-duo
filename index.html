@@ -11,7 +11,7 @@
   --panel-bg: #1f2e35;
   --border: #2c3e46;
   --text: #ffffff;
-  --muted: #a5b1b8;
+  --muted: #7b8c96;
   --blue: #1cb0f6;
   --orange: #ff9600;
   --active-bg: #393222;
@@ -91,52 +91,57 @@ main {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 15px 0 25px;
+  margin: 10px 0 20px;
 }
 .streak-info .big-num {
-  font-size: 52px;
+  font-size: 56px;
   font-weight: 900;
   line-height: 1;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
+  letter-spacing: -1px;
 }
 .streak-info .sub-text {
-  font-size: 14px;
+  font-size: 15px;
   color: var(--muted);
   font-weight: 700;
 }
 .streak-icon-container {
-  width: 90px;
-  height: 90px;
+  width: 95px;
+  height: 95px;
   display: grid;
   place-items: center;
-  font-size: 54px;
+}
+.streak-svg {
+  width: 80px;
+  height: 80px;
 }
 .month-nav-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 15px;
+  margin-bottom: 16px;
 }
 .month-title {
   font-size: 18px;
   font-weight: 800;
-  text-transform: capitalize;
+  text-transform: lowercase;
+}
+.month-title::first-letter {
+  text-transform: uppercase;
 }
 .nav-arrows {
   display: flex;
   gap: 10px;
 }
 .nav-btn {
-  background: #23353d;
+  background: transparent;
   border: none;
-  color: var(--text);
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  font-size: 18px;
+  color: var(--muted);
+  font-size: 22px;
   cursor: pointer;
   display: grid;
   place-items: center;
+  padding: 0 4px;
 }
 .stats-row {
   display: grid;
@@ -178,20 +183,21 @@ main {
 }
 .weekday {
   text-align: center;
-  font-size: 11px;
+  font-size: 12px;
   color: var(--muted);
   padding-bottom: 8px;
+  font-weight: 700;
 }
 .day {
-  background: #253740;
+  background: transparent;
   border: 2px solid transparent;
   color: var(--muted);
-  border-radius: 10px;
+  border-radius: 12px;
   aspect-ratio: 1;
   display: grid;
   place-items: center;
-  font-size: 13px;
-  font-weight: 800;
+  font-size: 14px;
+  font-weight: 700;
   cursor: pointer;
   transition: 0.1s;
 }
@@ -201,7 +207,7 @@ main {
   color: #ffc233;
 }
 .day.today {
-  border-color: var(--blue);
+  border-color: #7b8c96;
 }
 .day.empty {
   background: transparent;
@@ -221,12 +227,13 @@ main {
   display: flex;
   align-items: center;
   gap: 16px;
+  margin-bottom: 24px;
 }
 .lock-icon {
-  font-size: 36px;
+  font-size: 32px;
   background: #253740;
-  width: 60px;
-  height: 60px;
+  width: 56px;
+  height: 56px;
   border-radius: 14px;
   display: grid;
   place-items: center;
@@ -243,7 +250,6 @@ main {
   border: 2px solid var(--border);
   border-radius: 16px;
   padding: 16px;
-  margin-top: 20px;
 }
 .edit-panel h3 {
   font-size: 15px;
@@ -325,7 +331,9 @@ main {
       <div class="big-num" id="streak">0</div>
       <div class="sub-text">dni serii!</div>
     </div>
-    <div class="streak-icon-container">🔥</div>
+    <div class="streak-icon-container" id="streakIconContainer">
+      <!-- Płomień wstawiany dynamicznie w JS w zależności od liczby serii -->
+    </div>
   </div>
 
   <div class="month-nav-container">
@@ -338,11 +346,11 @@ main {
 
   <div class="stats-row">
     <div class="stat-box">
-      <div class="stat-box-head"><span>🟠</span> DNI NAUKI</div>
+      <div class="stat-box-head"><span>🟠</span> Dni nauki</div>
       <div class="stat-box-val" id="lessons">0</div>
     </div>
     <div class="stat-box">
-      <div class="stat-box-head"><span>💬</span> UŻYTE ZAMROŻENIA</div>
+      <div class="stat-box-head"><span>💬</span> Użyte Zamrożenia</div>
       <div class="stat-box-val" id="freezes">0</div>
     </div>
   </div>
@@ -407,7 +415,8 @@ function label(k) {
 }
 
 function render() {
-  $('streak').textContent = +data.streak || 0;
+  let streakVal = +data.streak || 0;
+  $('streak').textContent = streakVal;
   $('lessons').textContent = +data.lessons || 0;
   $('freezes').textContent = +data.freezes || 0;
   
@@ -415,6 +424,14 @@ function render() {
   $('lessonsInput').value = data.lessons;
   $('freezesInput').value = data.freezes;
   $('monthTitle').textContent = label(shown);
+
+  // Płomień: aktywny (pomarańczowy) gdy streak > 0, szary (nieaktywny) gdy 0
+  const container = $('streakIconContainer');
+  if (streakVal > 0) {
+    container.innerHTML = `<svg class="streak-svg" viewBox="0 0 100 100" fill="none"><path d="M50 8C50 8 32 30 32 50C32 62 40 72 50 72C60 72 68 62 68 50C68 30 50 8 50 8Z" fill="#ff9600"/><path d="M50 42C50 42 43 53 43 60C43 64 46 67 50 67C54 67 57 64 57 60C57 53 50 42 50 42Z" fill="#ffc233"/><ellipse cx="50" cy="85" rx="20" ry="6" fill="#ff9600" opacity="0.4"/></svg>`;
+  } else {
+    container.innerHTML = `<svg class="streak-svg" viewBox="0 0 100 100" fill="none"><path d="M50 8C50 8 32 30 32 50C32 62 40 72 50 72C60 72 68 62 68 50C68 30 50 8 50 8Z" fill="#253740"/><path d="M50 42C50 42 43 53 43 60C43 64 46 67 50 67C54 67 57 64 57 60C57 53 50 42 50 42Z" fill="#1f2e35"/><ellipse cx="50" cy="85" rx="20" ry="6" fill="#253740" opacity="0.3"/></svg>`;
+  }
 
   let d = dateOf(shown),
       y = d.getFullYear(),
@@ -468,7 +485,7 @@ function toast() {
 $('save').onclick = () => {
   data.streak = Math.max(0, +$('streakInput').value || 0);
   data.lessons = Math.max(0, +$('lessonsInput').value || 0);
-  data.freezes = Math.max(0, +$('freezesInput').value || 0);
+  data.freezes = Math.max(0, +$('frozenInput').value || +$('freezesInput').value || 0);
   store();
   render();
   toast();
